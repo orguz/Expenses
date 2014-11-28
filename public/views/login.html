@@ -1,0 +1,22 @@
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+
+            <h1 class="logo-name">ExpenseS</h1>
+
+        </div>
+        <p>Login to see it in action.</p>
+        {{user}}
+
+        <form class="m-t" role="form" action="#">
+            <div class="form-group">
+                <input class="form-control" ng-model="user.username" placeholder="Username" required="">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" ng-model="user.password" placeholder="Password" required="">
+            </div>
+        </form>
+        <button ng-click="login()" class="btn btn-primary block full-width m-b">Login</button>
+
+    </div>
+</div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="inspinia">
+<html ng-app="expensesApp">
 
 <head>
 
@@ -21,63 +21,53 @@
 
 <!-- ControllerAs syntax -->
 <!-- Main controller with serveral data used in Inspinia theme on diferent view -->
-<body ng-controller="MainCtrl as main">
+<body>
 
 <!-- Wrapper-->
-<div id="wrapper">
-
-    <!-- Navigation -->
-    <div ng-include="'views/common/navigation.html'"></div>
-
-    <!-- Page wraper -->
-    <!-- ng-class with current state name give you the ability to extended customization your view -->
-    <div id="page-wrapper" class="gray-bg {{$state.current.name}}">
-
-        <!-- Page wrapper -->
-        <div ng-include="'views/common/topnavbar.html'"></div>
-
+<div>
         <!-- Main view  -->
         <div ui-view></div>
-
-        <!-- Footer -->
-        <div ng-include="'views/common/footer.html'"></div>
-
-    </div>
-    <!-- End page wrapper-->
 
 </div>
 <!-- End wrapper-->
 
 
 <!-- jQuery and Bootstrap -->
-<script src="js/jquery/jquery-2.1.1.min.js"></script>
-<script src="js/plugins/jquery-ui/jquery-ui.js"></script>
-<script src="js/bootstrap/bootstrap.min.js"></script>
+<script src="js/libs/jquery/jquery-2.1.1.min.js"></script>
+<script src="js/libs/plugins/jquery-ui/jquery-ui.js"></script>
+<script src="js/libs/bootstrap/bootstrap.min.js"></script>
 
 <!-- MetsiMenu -->
-<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/libs/plugins/metisMenu/jquery.metisMenu.js"></script>
 
 <!-- Peace JS -->
-<script src="js/plugins/pace/pace.min.js"></script>
+<script src="js/libs/plugins/pace/pace.min.js"></script>
 
 <!-- SlimScroll -->
-<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="js/libs/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="js/inspinia.js"></script>
+<script src="js/utils/inspinia.js"></script>
 
 <!-- Angular scripts-->
-<script src="js/angular/angular.min.js"></script>
-<script src="js/ui-router/angular-ui-router.min.js"></script>
-<script src="js/bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="js/libs/angular/angular.min.js"></script>
+<script src="js/libs/ui-router/angular-ui-router.min.js"></script>
+<script src="js/libs/bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
 <!-- Angular Dependiences -->
 
 <!-- Anglar App Script -->
-<script src="js/app.js"></script>
-<script src="js/config.js"></script>
-<script src="js/directives.js"></script>
-<script src="js/controllers.js"></script>
+<script src="js/index.js"></script>
+
+<!-- Services -->
+<script src="js/services/AuthenticationService.js"></script>
+
+<!-- Controllers -->
+<script src="js/controllers/LoginCtrl.js"></script>
+<script src="js/controllers/WrapperCtrl.js"></script>
+
+<!--Directives -->
+<script src="js/directives/directives.js"></script>
 
 </body>
 </html>
