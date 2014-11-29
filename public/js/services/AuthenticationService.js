@@ -1,8 +1,8 @@
 'use strict';
 
 expensesApp.factory('AuthenticationService', function ($http, $q) {
-    //var nodeServer = 'http://localhost:5000';
-    var nodeServer = 'https://calc-expenses.herokuapp.com/';
+    var nodeServer = 'http://localhost:5000';
+    //var nodeServer = 'https://calc-expenses.herokuapp.com';
     var loginPath = '/serverauth/login';
     var isLoggedIn = false;
 
@@ -10,7 +10,7 @@ expensesApp.factory('AuthenticationService', function ($http, $q) {
         login: function (user) {
 
             var dfr = $q.defer();
-            $http.post(nodeServer + loginPath, {user: user}).success(function (data, status, header, config) {
+            $http.post(loginPath, {user: user}).success(function (data, status, header, config) {
                 isLoggedIn = true;
                 dfr.resolve(data);
 
