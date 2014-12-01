@@ -43,15 +43,14 @@ expensesApp.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'WrapperCtrl'
 
         })
+}).run(function ($rootScope, $state,AuthenticationService) {
+    $rootScope.$on("$stateChangeStart",
+        function (event, toState, toParams, fromState, fromParams) {
+            if (!AuthenticationService.isAuthenticated() && toState.name != 'login') {
+                event.preventDefault();
+                $state.go('login');
+
+            }
+        }
+    );
 });
-//    .run(function ($rootScope, $state,AuthenticationService) {
-//    $rootScope.$on("$stateChangeStart",
-//        function (event, toState, toParams, fromState, fromParams) {
-//            //if (!AuthenticationService.isAuthenticated() && toState.name != 'login') {
-//            //    event.preventDefault();
-//            //    $state.go('login');
-//            //
-//            //}
-//        }
-//    );
-//});
