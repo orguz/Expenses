@@ -4,14 +4,36 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
+var mongoose = require('mongoose');
 
 var app = express();
 
-app.use(morgan('combined'));
-app.use(bodyParser.json());
-app.use(cookieParser());
+//Connecting to mongolab DB
+mongoose.connect('mongodb://orguz:orguz@ds057000.mongolab.com:57000/expenses'); // connect to our database
+var User = require('./app/models/user');
 
+
+// configure app to use bodyParser()
+// this will let us get the data from a POST
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(morgan('combined'));
+app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
+
+
+var router = express.Router(); 				// get an instance of the express Router
+
+// middleware to use for all requests
+router.use(function(req, res, next) {
+    // do logging
+    console.log('Something is happening.');
+    next(); // make sure we go to the next routes and don't stop here
+});
+
+// ROUTES FOR OUR API
+// =============================================================================
 
 app.get('/home', function (req, res) {
     res.sendFile(__dirname + '/public/index.html')
@@ -22,8 +44,6 @@ app.get('*', function (req, res) {
 });
 
 app.post('/serverauth/login', function (req, res) {
-    console.log(req.body);
-    console.log(req.body.user);
     var user = req.body.user;
     var retVal = {};
 
@@ -36,6 +56,27 @@ app.post('/serverauth/login', function (req, res) {
     }
 });
 
+app.post('/addUser', function (req, res) {
+    var reqUser = req.body.user;
+    var user = new User(); 		// create a new instance of the User model
+
+    user.username = reqUser.username;
+    user.password = reqUser.password;
+    user.first_name = reqUser.first_name;
+    user.last_name = reqUser.last_name;
+    user.email= reqUser.email;
+    user.api_key = 'hashedValue';
+    user.api_exp_date = Date.now();
+    console.log(user.toString());
+    // save the bear and check for errors
+    user.save(function(err) {
+        if (err)
+            res.send(err);
+
+        res.json({ message: 'User created!' });
+    });
+});
+
 var server = app.listen(process.env.PORT || 5000, function () {
 
     var host = server.address().address;
@@ -44,3 +85,4 @@ var server = app.listen(process.env.PORT || 5000, function () {
     console.log('Example app listening at http://%s:%s', host, port)
 
 });
+

@@ -7,11 +7,13 @@
 var expensesApp = angular.module('expensesApp', [
     'ui.router',
     'ui.bootstrap',
+    //'angular-flot',                 // Flot charts
+    'angles',
 ]);
 
 
 expensesApp.config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("/main/minor");
+    $urlRouterProvider.otherwise("/main/live");
     $stateProvider
         .state('login', {
             url: '/login',
@@ -35,11 +37,6 @@ expensesApp.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: "views/main.html",
             controller: 'WrapperCtrl'
 
-        })
-        .state('main.minor', {
-            url: "/minor",
-            templateUrl: "views/minor.html",
-            data: {pageTitle: 'Example view'}
         })
 }).run(function ($rootScope, $state,AuthenticationService) {
     $rootScope.$on("$stateChangeStart",
