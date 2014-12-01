@@ -5,7 +5,6 @@ var config = {};
 
 config.SECRET_TOKEN = 'secretMUHAHA';
 config.TOKEN_EXPIRATION = 60;
-//config.salt = 'http://localhost/';
 
 
 module.exports = config;

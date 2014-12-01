@@ -1,10 +1,10 @@
-expensesApp.controller('RegisterCtrl', ['$scope', '$state','$location', 'AuthenticationService', function ($scope, $state, $location, AuthenticationService) {
+expensesApp.controller('RegisterCtrl', ['$scope', '$state','$location', 'AuthenticationService', 'UserDataService', function ($scope, $state, $location, AuthenticationService, UserDataService) {
     $scope.user = {};
     $scope.register = function () {
         console.log('entered register function in RegisterCtrl');
         console.log($scope.user.username);
 
-        if (AuthenticationService.isAuthenticated) {
+        if (UserDataService.isAuthenticated) {
             $location.path("/main.live");
         }
         else {

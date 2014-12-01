@@ -1,14 +1,12 @@
 'use strict';
 
 expensesApp.factory('AuthenticationService', function ($http, $q) {
-    var isAuthenticated = false;
 
     var service = {
         login: function (user) {
 
             var dfr = $q.defer();
             $http.post('/serverauth/login', {user: user}).success(function (data, status, header, config) {
-                isAuthenticated = true;
                 dfr.resolve(data);
 
             }).error(function (data, status, header, config) {
@@ -34,4 +32,4 @@ expensesApp.factory('AuthenticationService', function ($http, $q) {
 
 
     return service;
-})
+});
