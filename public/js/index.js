@@ -7,7 +7,6 @@
 var expensesApp = angular.module('expensesApp', [
     'ui.router',
     'ui.bootstrap',
-    //'angular-flot',                 // Flot charts
     'angles',
 ]);
 
@@ -20,6 +19,12 @@ expensesApp.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'views/login.html',
             data: {pageTitle: 'Login page'},
             controller: 'LoginCtrl'
+        })
+        .state('register', {
+            url: '/register',
+            templateUrl: 'views/register.html',
+            data: {pageTitle: 'Registration page'},
+            controller: 'RegisterCtrl'
         })
         .state('main.live', {
             url: '/live',
@@ -38,14 +43,15 @@ expensesApp.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'WrapperCtrl'
 
         })
-}).run(function ($rootScope, $state,AuthenticationService) {
-    $rootScope.$on("$stateChangeStart",
-        function (event, toState, toParams, fromState, fromParams) {
-            if (!AuthenticationService.isAuthenticated() && toState.name != 'login') {
-                event.preventDefault();
-                $state.go('login');
-
-            }
-        }
-    );
 });
+//    .run(function ($rootScope, $state,AuthenticationService) {
+//    $rootScope.$on("$stateChangeStart",
+//        function (event, toState, toParams, fromState, fromParams) {
+//            //if (!AuthenticationService.isAuthenticated() && toState.name != 'login') {
+//            //    event.preventDefault();
+//            //    $state.go('login');
+//            //
+//            //}
+//        }
+//    );
+//});

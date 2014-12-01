@@ -1,17 +1,14 @@
 'use strict';
 
 expensesApp.factory('AuthenticationService', function ($http, $q) {
-    var nodeServer = 'http://localhost:5000';
-    //var nodeServer = 'https://calc-expenses.herokuapp.com';
-    var loginPath = '/serverauth/login';
-    var isLoggedIn = false;
+    var isAuthenticated = false;
 
     var service = {
         login: function (user) {
 
             var dfr = $q.defer();
-            $http.post(loginPath, {user: user}).success(function (data, status, header, config) {
-                isLoggedIn = true;
+            $http.post('/serverauth/login', {user: user}).success(function (data, status, header, config) {
+                isAuthenticated = true;
                 dfr.resolve(data);
 
             }).error(function (data, status, header, config) {
@@ -21,10 +18,17 @@ expensesApp.factory('AuthenticationService', function ($http, $q) {
 
             return dfr.promise;
 
-
         },
-        isAuthenticated: function(){
-            return isLoggedIn;
+        register: function(user){
+            var dfr = $q.defer();
+
+            $http.post('/serverauth/register', {user: user}).success(function (data, status, header, config) {
+                dfr.resolve(data);
+            }).error(function (data, status, header, config) {
+                dfr.reject(data);
+            });
+
+            return dfr.promise;
         }
     };
 

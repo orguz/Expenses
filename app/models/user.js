@@ -6,13 +6,12 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var UserSchema   = new Schema({
-    username: String,
-    password: String,
-    first_name: String,
-    last_name: String,
-    email: String,
-    api_key: String,
-    api_exp_date: Date
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: { type: String, required: true },
+    created: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('User', UserSchema);
