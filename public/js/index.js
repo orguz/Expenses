@@ -46,7 +46,7 @@ expensesApp.config(function ($stateProvider, $urlRouterProvider) {
 }).run(function ($rootScope, $state,AuthenticationService) {
     $rootScope.$on("$stateChangeStart",
         function (event, toState, toParams, fromState, fromParams) {
-            if (!AuthenticationService.isAuthenticated() && toState.name != 'login') {
+            if (!AuthenticationService.isAuthenticated && !(toState.name == 'login' || toState.name == 'register') ) {
                 event.preventDefault();
                 $state.go('login');
 

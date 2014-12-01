@@ -35,11 +35,11 @@ router.use(function (req, res, next) {
 // =============================================================================
 
 app.get('/home', function (req, res) {
-    res.sendFile(__dirname + '/public/index.html')
+    res.sendStatusFile(__dirname + '/public/index.html')
 });
 
 app.get('*', function (req, res) {
-    res.sendFile(__dirname + '/public/index.html')
+    res.sendStatusFile(__dirname + '/public/index.html')
 });
 
 app.post('/serverauth/login', function (req, res) {
@@ -48,23 +48,23 @@ app.post('/serverauth/login', function (req, res) {
     //var password = req.body.user.password || '';
     //
     //if (username == '' || password == '') {
-    //    return res.send(401);
+    //    return res.sendStatus(401);
     //}
     //
     //User.findOne({username: username}, function (err, user) {
     //    if (err) {
     //        console.log(err);
-    //        return res.send(401);
+    //        return res.sendStatus(401);
     //    }
     //
     //    if (user == undefined) {
-    //        return res.send(401);
+    //        return res.sendStatus(401);
     //    }
     //
     //    User.comparePassword(password, function (isMatch) {
     //        if (!isMatch) {
     //            console.log("Attempt failed to login with " + user.username);
-    //            return res.send(401);
+    //            return res.sendStatus(401);
     //        }
     //
     //        var token = jwt.sign({id: user._id}, secret.secretToken, {expiresInMinutes: tokenManager.TOKEN_EXPIRATION});
@@ -79,10 +79,10 @@ app.post('/serverauth/login', function (req, res) {
 
     if (user && user.username == 'a' && user.password == 'a') {
         retVal.fullName = 'Ofer Barkan';
-        res.send(200,retVal);
+        res.sendStatus(200,retVal);
     }
     else{
-        res.sendStatus(401);
+        res.sendStatusStatus(401);
     }
 });
 
@@ -94,7 +94,7 @@ app.post('/serverauth/register', function (req, res) {
     var lastName = req.body.user.last_name || '';
 
     if (username == '' || password == '' ) {
-        return res.send(400);
+        return res.sendStatus(400);
     }
 
     var user = new User();
@@ -107,16 +107,16 @@ app.post('/serverauth/register', function (req, res) {
     user.save(function(err) {
         if (err) {
             console.log(err);
-            return res.send(500);
+            return res.sendStatus(500);
         }
 
         User.count(function(err, counter) {
             if (err) {
                 console.log(err);
-                return res.send(500);
+                return res.sendStatus(500);
             }
 
-            res.send(200);
+            res.sendStatus(200);
         });
     });
 
@@ -135,7 +135,7 @@ app.post('/serverauth/register', function (req, res) {
     //// save the bear and check for errors
     //user.save(function (err) {
     //    if (err)
-    //        res.send(err);
+    //        res.sendStatus(err);
     //
     //    res.json({message: 'User created!'});
     //});
