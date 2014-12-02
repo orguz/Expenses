@@ -7,7 +7,7 @@
         </div>
         <h3>Register to ExpenseS</h3>
         <p>Create account to see it in action</p>
-        <form class="m-t" role="form" action="#">
+        <form class="m-t" role="form" action="">
             <div class="form-group">
                 <input type="text" ng-model="user.username" class="form-control" placeholder="Username" required="">
             </div>
@@ -23,9 +23,9 @@
             <div class="form-group">
                 <input type="email" ng-model="user.email"class="form-control" placeholder="Email" required="">
             </div>
+            <button ng-click="register()" class="btn btn-primary block full-width m-b">Register</button>
 
         </form>
-        <button ng-click="register()" class="btn btn-primary block full-width m-b">Register</button>
 
         <p class="text-muted text-center"><small>Already have an account?</small></p>
         <a class="btn btn-sm btn-white btn-block" href="/#/login">Login</a>
