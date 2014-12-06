@@ -65,28 +65,18 @@ app.post('/serverauth/login', function (req, res) {
             return res.sendStatus(401);
         }
 
-        user.comparePassword(password, function(isMatch) {
+        user.comparePassword(password, function (isMatch) {
             if (!isMatch) {
                 console.log("Attempt failed to login with " + user.username);
                 return res.sendStatus(401);
             }
-
-            var token = jwt.sign({id: user._id}, config.SECRET_TOKEN, { expiresInMinutes: config.TOKEN_EXPIRATION });
-            console.log('succesful log in, token: '+token);
-            return res.json({token:token});
+            console.log('test');
+            var token = jwt.sign({id: user._id}, config.SECRET_TOKEN, {expiresInMinutes: config.TOKEN_EXPIRATION});
+            console.log('succesful log in, token: ' + token);
+            return res.json({token: token, userId: user._id});
         });
 
     });
-    //var user = req.body.user;
-    //var retVal = {};
-    //
-    //if (user && user.username == 'a' && user.password == 'a') {
-    //    retVal.fullName = 'Ofer Barkan';
-    //    res.sendStatus(200,retVal);
-    //}
-    //else{
-    //    res.sendStatusStatus(401);
-    //}
 });
 
 app.post('/serverauth/register', function (req, res) {
@@ -96,7 +86,7 @@ app.post('/serverauth/register', function (req, res) {
     var firstName = req.body.user.first_name || '';
     var lastName = req.body.user.last_name || '';
 
-    if (username == '' || password == '' ) {
+    if (username == '' || password == '') {
         return res.sendStatus(400);
     }
 
@@ -107,24 +97,33 @@ app.post('/serverauth/register', function (req, res) {
     user.first_name = firstName;
     user.last_name = lastName;
 
-    user.save(function(err) {
+    user.save(function (err, user) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-
-        User.count(function(err, counter) {
+        User.count(function (err, counter) {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500);
             }
-
-            res.sendStatus(200);
+            console.log('userid for new user on server side before sending response' + user.id);
+            var token = jwt.sign({id: user._id}, config.SECRET_TOKEN, {expiresInMinutes: config.TOKEN_EXPIRATION});
+            res.status(201).send({token: token, userId: user._id});
         });
+
     });
 
 });
 
+app.post('serverauth/logout', function (req, res) {
+        //tokenManager.expireToken(req.headers);
+        return res.send(200);
+
+    //else {
+    //    return res.send(401);
+    //}
+});
 var server = app.listen(process.env.PORT || 5000, function () {
 
     var host = server.address().address;

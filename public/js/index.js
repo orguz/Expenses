@@ -16,17 +16,15 @@ expensesApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) 
     $urlRouterProvider.otherwise("/main/live");
     $httpProvider.interceptors.push('TokenInterceptor');
     $stateProvider
-        .state('login', {
+        .state('auth.login', {
             url: '/login',
             templateUrl: 'views/login.html',
-            data: {pageTitle: 'Login page'},
-            controller: 'LoginCtrl'
+            data: {pageTitle: 'Login page'}
         })
-        .state('register', {
+        .state('auth.register', {
             url: '/register',
             templateUrl: 'views/register.html',
-            data: {pageTitle: 'Registration page'},
-            controller: 'RegisterCtrl'
+            data: {pageTitle: 'Registration page'}
         })
         .state('main.live', {
             url: '/live',
@@ -46,6 +44,12 @@ expensesApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) 
             templateUrl: "views/main.html",
             controller: 'WrapperCtrl'
         })
+        .state('auth', {
+            abstract: true,
+            url: "/auth",
+            templateUrl: "views/auth.html",
+            controller: 'UserManagementCtrl'
+        })
 });
 
 
@@ -56,7 +60,7 @@ expensesApp.run(function ($rootScope, $state, $window, $location, UserDataServic
             if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication
                 && !UserDataService.isAuthenticated && !$window.sessionStorage.token) {
                 event.preventDefault();
-                $state.go('login');
+                $state.go('auth.login');
             }
         }
     );

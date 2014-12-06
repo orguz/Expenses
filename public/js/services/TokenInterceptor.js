@@ -7,6 +7,7 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
             config.headers = config.headers || {};
             if ($window.sessionStorage.token) {
                 config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+                config.userId = UserDataService.userId;
             }
             return config;
         },

@@ -16,6 +16,7 @@ var UserSchema   = new Schema({
     created: { type: Date, default: Date.now }
 });
 
+
 // Bcrypt middleware on UserSchema
 UserSchema.pre('save', function(next) {
     var user = this;

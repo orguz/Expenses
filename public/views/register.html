@@ -7,12 +7,12 @@
         </div>
         <h3>Register to ExpenseS</h3>
         <p>Create account to see it in action</p>
-        <form class="m-t" role="form" action="">
+        <form class="m-t" role="form" ng-submit="register()">
             <div class="form-group">
-                <input type="text" ng-model="user.username" class="form-control" placeholder="Username" required="">
+                <input ng-model="user.username" class="form-control" placeholder="Username" required="">
             </div>
             <div class="form-group">
-                <input type="password" ng-model="user.password" class="form-control" placeholder="Password" required="">
+                <input type="password" ng-model="user.password" class="form-control" placeholder="Password" required>
             </div>
             <div class="form-group">
                 <input type="text" ng-model="user.first_name" class="form-control" placeholder="First Name" required="">
@@ -23,12 +23,12 @@
             <div class="form-group">
                 <input type="email" ng-model="user.email"class="form-control" placeholder="Email" required="">
             </div>
-            <button ng-click="register()" class="btn btn-primary block full-width m-b">Register</button>
+            <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
 
         </form>
 
         <p class="text-muted text-center"><small>Already have an account?</small></p>
-        <a class="btn btn-sm btn-white btn-block" href="/#/login">Login</a>
+        <a class="btn btn-sm btn-white btn-block" href="/#/auth/login">Login</a>
 
         <p class="m-t"> <small>Expenses &copy; 2014</small> </p>
     </div>

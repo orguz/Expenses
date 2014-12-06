@@ -3,7 +3,8 @@
  */
 expensesApp.factory('UserDataService', function() {
     var auth = {
-        isAuthenticated: false
+        isAuthenticated: false,
+        userId: ''
     }
 
     return auth;
