@@ -26,6 +26,11 @@ app.use(express.static(__dirname + '/public'));
 
 var router = express.Router(); 				// get an instance of the express Router
 
+//Services
+var services = {};
+services.tokenAuth = require('./app/services/TokenAuthService.js');
+
+
 // middleware to use for all requests
 router.use(function (req, res, next) {
     // do logging
@@ -70,10 +75,7 @@ app.post('/serverauth/login', function (req, res) {
                 console.log("Attempt failed to login with " + user.username);
                 return res.sendStatus(401);
             }
-            console.log('test');
-            var token = jwt.sign({id: user._id}, config.SECRET_TOKEN, {expiresInMinutes: config.TOKEN_EXPIRATION});
-            console.log('succesful log in, token: ' + token);
-            return res.json({token: token, userId: user._id});
+            return res.json({token: services.tokenAuth.issueToken({id: user._id}), userId: user._id});
         });
 
     });
@@ -107,23 +109,27 @@ app.post('/serverauth/register', function (req, res) {
                 console.log(err);
                 return res.sendStatus(500);
             }
-            console.log('userid for new user on server side before sending response' + user.id);
-            var token = jwt.sign({id: user._id}, config.SECRET_TOKEN, {expiresInMinutes: config.TOKEN_EXPIRATION});
-            res.status(201).send({token: token, userId: user._id});
+            res.status(201).send({token: services.tokenAuth.issueToken({id: user._id}), userId: user._id});
         });
 
     });
 
 });
 
-app.post('serverauth/logout', function (req, res) {
-        //tokenManager.expireToken(req.headers);
-        return res.send(200);
+app.post('/serverauth/logout', function (req, res) {
+    console.log("begin logout on server" + req.headers.userid);
+    services.tokenAuth.verifyToken(req.headers.authorization, req.headers.userid, function(err, token) {
+        if (err) {
+            console.log("verify token rejected. Error: " + err);
+            return res.sendStatus(401);
+        }
+        console.log("verifyToken Accepted");
 
-    //else {
-    //    return res.send(401);
-    //}
+        return res.sendStatus(200);
+    });
 });
+
+
 var server = app.listen(process.env.PORT || 5000, function () {
 
     var host = server.address().address;

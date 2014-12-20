@@ -6,8 +6,9 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
         request: function (config) {
             config.headers = config.headers || {};
             if ($window.sessionStorage.token) {
-                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
-                config.userId = UserDataService.userId;
+                config.headers.authorization = $window.sessionStorage.token;
+                config.headers.userid= UserDataService.userId;
+
             }
             return config;
         },
@@ -29,7 +30,7 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
             if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || UserDataService.isAuthenticated)) {
                 delete $window.sessionStorage.token;
                 UserDataService.isAuthenticated = false;
-                $location.path("/admin/login");
+                $location.path("auth/login");
             }
 
             return $q.reject(rejection);
