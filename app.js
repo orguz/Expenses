@@ -11,6 +11,12 @@ var config = require('./app/config/config.js');
 var app = express();
 var router = express.Router();
 
+// middleware to use for all requests
+router.use(function (req, res, next) {
+    // do logging
+    console.log('Something is happening.');
+    next(); // make sure we go to the next routes and don't stop here
+});
 
 //DB Connection
 mongoose.connect('mongodb://orguz:orguz@ds057000.mongolab.com:57000/expenses'); // connect to our database
@@ -29,12 +35,6 @@ app.use(express.static(__dirname + '/public'));
 var services = {};
 //services.tokenAuth = require('./app/services/TokenAuthService.js');
 
-// middleware to use for all requests
-router.use(function (req, res, next) {
-    // do logging
-    console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
-});
 
 //--------
 //Routes
@@ -61,6 +61,9 @@ app.post('/serverauth/register', routes.auth.register);
 //Logout
 app.post('/serverauth/logout', routes.auth.logout);
 
+
+
+//Server definition
 var server = app.listen(process.env.PORT || 5000, function () {
 
     var host = server.address().address;
