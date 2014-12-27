@@ -3,12 +3,12 @@ expensesApp.controller('NavigationCtrl', ['$scope', '$state', '$window', 'Authen
     $scope.logout = function () {
         if (UserDataService.isAuthenticated) {
 
-            AuthenticationService.logout().then(function (data) {
+            AuthenticationService.logout().then(function () {
                 UserDataService.isAuthenticated = false;
                 delete $window.sessionStorage.token;
                 $state.go('auth.login');
-            }).error(function (data) {
-                console.log(data);
+            }, function error(msg) {
+                console.error(msg);
             });
         }
         else {

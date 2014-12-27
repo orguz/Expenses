@@ -36,10 +36,10 @@ expensesApp.factory('AuthenticationService', function ($http, $q, $window, UserD
         },
         logout: function(){
             var dfr = $q.defer();
-            $http.post('/serverauth/logout').success(function (data, status, header, config) {
-                dfr.resolve(data);
-            }).error(function (data, status, header, config) {
-                dfr.reject(data);
+            $http.post('/serverauth/logout').success(function () {
+                dfr.resolve();
+            }).error(function () {
+                dfr.reject();
             });
 
             return dfr.promise;
