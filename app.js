@@ -33,7 +33,7 @@ app.use(express.static(__dirname + '/public'));
 //Services
 //--------
 var services = {};
-//services.tokenAuth = require('./app/services/TokenAuthService.js');
+services.tokenAuth = require('./app/services/TokenAuthService.js');
 
 
 //--------
@@ -41,16 +41,18 @@ var services = {};
 //--------
 var routes = {};
 routes.auth = require('./app/routes/Authentication.js');
+routes.expenses = require('./app/routes/Expenses.js');
 
 
 
 // ROUTES FOR OUR API
 // =============================================================================
 
-//Default route
-app.get('*', function (req, res) {
-    res.sendFile(__dirname + '/public/index.html')
-});
+
+
+// ----------------
+//      User
+// ----------------
 
 //Login
 app.post('/serverauth/login', routes.auth.login);
@@ -59,7 +61,22 @@ app.post('/serverauth/login', routes.auth.login);
 app.post('/serverauth/register', routes.auth.register);
 
 //Logout
-app.post('/serverauth/logout', routes.auth.logout);
+app.post('/serverauth/logout', services.tokenAuth.verifyToken, routes.auth.logout);
+
+// ----------------
+//      Expense
+// ----------------
+
+app.post('/expenses/addExpense', services.tokenAuth.verifyToken, routes.expenses.addExpense);
+app.get('/expenses/:id', services.tokenAuth.verifyToken, routes.expenses.getExpenseById);
+app.get('/expenses', services.tokenAuth.verifyToken, routes.expenses.getUserExpenses);
+app.get('/expenses/:month/:year', services.tokenAuth.verifyToken, routes.expenses.getMonthlyExpenses);
+
+
+//Default route
+app.get('*', function (req, res) {
+    res.sendFile(__dirname + '/public/index.html')
+});
 
 
 
