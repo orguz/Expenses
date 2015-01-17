@@ -6,6 +6,7 @@ expensesApp.controller('NavigationCtrl', ['$scope', '$state', '$window', 'Authen
             AuthenticationService.logout().then(function () {
                 UserDataService.isAuthenticated = false;
                 delete $window.sessionStorage.token;
+                delete $window.sessionStorage.userId;
                 $state.go('auth.login');
             }, function error(msg) {
                 console.error(msg);

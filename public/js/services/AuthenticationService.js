@@ -9,7 +9,7 @@ expensesApp.factory('AuthenticationService', function ($http, $q, $window, UserD
             $http.post('/serverauth/login', {user: user}).success(function (data, status, header, config) {
                 UserDataService.userId = data.userId;
                 UserDataService.isAuthenticated = true;
-                $window.sessionStorage.token = data.token;
+                UserDataService.token = data.token;
                 dfr.resolve(data);
 
             }).error(function (data, status, header, config) {
@@ -25,10 +25,7 @@ expensesApp.factory('AuthenticationService', function ($http, $q, $window, UserD
 
             $http.post('/serverauth/register', {user: user}).success(function (data, status, header, config) {
                 UserDataService.isAuthenticated = true;
-                $window.sessionStorage.token = data.token;
-
-                //UserId is persisted on sessionStorage for supporting page refresh
-                $window.sessionStorage.userId = data.userId;
+                UserDataService.token = data.token;
                 UserDataService.userId = data.userId;
 
                 dfr.resolve(data);

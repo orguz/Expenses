@@ -58,7 +58,7 @@ expensesApp.run(function ($rootScope, $state, $window, $location, UserDataServic
         function (event, nextRoute) {
             //redirect only if both isAuthenticated is false and no token is set
             if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication
-                && !UserDataService.isAuthenticated && !$window.sessionStorage.token) {
+                && !UserDataService.isAuthenticated && !UserDataService.token) {
                 event.preventDefault();
                 $state.go('auth.login');
             }

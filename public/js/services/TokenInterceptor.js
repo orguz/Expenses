@@ -5,8 +5,8 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
     return {
         request: function (config) {
             config.headers = config.headers || {};
-            if ($window.sessionStorage.token) {
-                config.headers.authorization = $window.sessionStorage.token;
+            if (UserDataService.token) {
+                config.headers.authorization = UserDataService.token;
                 config.headers.userid= UserDataService.userId;
             }
             return config;
@@ -18,16 +18,15 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
 
         /* Set Authentication.isAuthenticated to true if 200 received & support refresh*/
         response: function (response) {
-            if (response != null && response.status == 200 && $window.sessionStorage.token && !UserDataService.isAuthenticated) {
+            if (response != null && response.status == 200 && UserDataService.token && !UserDataService.isAuthenticated) {
                 UserDataService.isAuthenticated = true;
-                UserDataService.userId = $window.sessionStorage.userId;
             }
             return response || $q.when(response);
         },
 
         /* Revoke client authentication if 401 is received */
         responseError: function(rejection) {
-            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || UserDataService.isAuthenticated)) {
+            if (rejection != null && rejection.status === 401 && (UserDataService.token || UserDataService.isAuthenticated)) {
                 delete $window.sessionStorage.token;
                 UserDataService.isAuthenticated = false;
                 $location.path("auth/login");
