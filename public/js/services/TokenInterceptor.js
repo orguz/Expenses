@@ -8,7 +8,6 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
             if ($window.sessionStorage.token) {
                 config.headers.authorization = $window.sessionStorage.token;
                 config.headers.userid= UserDataService.userId;
-
             }
             return config;
         },
@@ -17,10 +16,11 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
             return $q.reject(rejection);
         },
 
-        /* Set Authentication.isAuthenticated to true if 200 received */
+        /* Set Authentication.isAuthenticated to true if 200 received & support refresh*/
         response: function (response) {
             if (response != null && response.status == 200 && $window.sessionStorage.token && !UserDataService.isAuthenticated) {
                 UserDataService.isAuthenticated = true;
+                UserDataService.userId = $window.sessionStorage.userId;
             }
             return response || $q.when(response);
         },

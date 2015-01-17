@@ -6,5 +6,6 @@ var config = {};
 config.SECRET_TOKEN = 'secretMUHAHA';
 config.TOKEN_EXPIRATION = 60;
 
+config.defaultCategories = ["Food","Rent","Alcohol"];
 
 module.exports = config;

@@ -1,6 +1,6 @@
 'use strict';
 
-expensesApp.factory('AuthenticationService', function ($http, $q, $window, UserDataService) {
+expensesApp.factory('AuthenticationService', function ($http, $q, $window, UserDataService, ConfigurationService) {
 
     var service = {
         login: function (user) {
@@ -26,7 +26,11 @@ expensesApp.factory('AuthenticationService', function ($http, $q, $window, UserD
             $http.post('/serverauth/register', {user: user}).success(function (data, status, header, config) {
                 UserDataService.isAuthenticated = true;
                 $window.sessionStorage.token = data.token;
+
+                //UserId is persisted on sessionStorage for supporting page refresh
+                $window.sessionStorage.userId = data.userId;
                 UserDataService.userId = data.userId;
+
                 dfr.resolve(data);
             }).error(function (data, status, header, config) {
                 dfr.reject(data);

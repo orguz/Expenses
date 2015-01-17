@@ -5,7 +5,9 @@ expensesApp.factory('UserDataService', function() {
     var auth = {
         isAuthenticated: false,
         userId: ''
-    }
+    };
+
+    var categories = {};
 
     return auth;
 });

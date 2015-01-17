@@ -42,6 +42,7 @@ services.tokenAuth = require('./app/services/TokenAuthService.js');
 var routes = {};
 routes.auth = require('./app/routes/Authentication.js');
 routes.expenses = require('./app/routes/Expenses.js');
+routes.configurations = require('./app/routes/Configurations.js');
 
 
 
@@ -61,16 +62,30 @@ app.post('/serverauth/login', routes.auth.login);
 app.post('/serverauth/register', routes.auth.register);
 
 //Logout
-app.post('/serverauth/logout', services.tokenAuth.verifyToken, routes.auth.logout);
+app.post('/serverauth/logout', routes.auth.logout);
 
 // ----------------
 //      Expense
 // ----------------
 
+//Add new expense
 app.post('/expenses/addExpense', services.tokenAuth.verifyToken, routes.expenses.addExpense);
+
+//Get specific expense
 app.get('/expenses/:id', services.tokenAuth.verifyToken, routes.expenses.getExpenseById);
+
+//Get all of user's expenses
 app.get('/expenses', services.tokenAuth.verifyToken, routes.expenses.getUserExpenses);
+
+//Get monthly expenses
 app.get('/expenses/:month/:year', services.tokenAuth.verifyToken, routes.expenses.getMonthlyExpenses);
+
+// ----------------
+//      Configuration
+// ----------------
+
+//Add new configuration
+app.post('/config/addCategories', services.tokenAuth.verifyToken, routes.configurations.addCategories);
 
 
 //Default route

@@ -1,4 +1,4 @@
-expensesApp.controller('UserManagementCtrl', ['$scope', '$state', '$window', 'AuthenticationService', 'UserDataService', function ($scope, $state, $window, AuthenticationService, UserDataService) {
+expensesApp.controller('UserManagementCtrl', ['$scope', '$state', '$window','ConfigurationService', 'AuthenticationService', 'UserDataService', function ($scope, $state, $window, ConfigurationService, AuthenticationService, UserDataService) {
     $scope.user = {};
     $scope.login = function () {
         if ($scope.user.username != null && $scope.user.password != null) {
@@ -19,10 +19,16 @@ expensesApp.controller('UserManagementCtrl', ['$scope', '$state', '$window', 'Au
             $state.go("main.live");
         }
         else {
-            AuthenticationService.register($scope.user).then(function (data) {
+            AuthenticationService.register($scope.user).then(function () {
                     console.log('succesful registration');
+                    ConfigurationService.addDefaultCategories().then(function (data){
+                        UserDataService.categories = data.defaultCategories;
+                        console.log(UserDataService.categories);
+                        $state.go("main.live");
+                    }, function (addCategoriesData){
+                        console.log(addCategoriesData);
+                    });
 
-                    $state.go("main.live");
                 },
                 function (data) {
                     console.log(data);

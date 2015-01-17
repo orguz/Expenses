@@ -16,7 +16,7 @@ var services = {};
 services.tokenAuth = require('../services/TokenAuthService.js');
 
 //Login function
-exports.login = function(req, res) {
+exports.login = function (req, res) {
     console.log('Entered login function');
     var username = req.body.user.username || '';
     var password = req.body.user.password || '';
@@ -49,7 +49,7 @@ exports.login = function(req, res) {
 };
 
 //Register function
-exports.register = function(req, res) {
+exports.register = function (req, res) {
     var username = req.body.user.username || '';
     var password = req.body.user.password || '';
     var email = req.body.user.email || '';
@@ -84,15 +84,8 @@ exports.register = function(req, res) {
 };
 
 //Register function
-exports.logout = function(req, res) {
+exports.logout = function (req, res) {
     console.log("begin logout on server" + req.headers.userid);
-    services.tokenAuth.verifyToken(req.headers.authorization, req.headers.userid, function(err, token) {
-        if (err) {
-            console.log("verify token rejected. Error: " + err);
-            return res.sendStatus(401);
-        }
-        console.log("verifyToken Accepted");
 
-        return res.sendStatus(200);
-    });
+    return res.sendStatus(200);
 };
