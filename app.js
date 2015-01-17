@@ -1,107 +1,135 @@
 'use strict';
 
 //Require modules
+var fs = require('fs');
 var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var morgan = require('morgan');
-var mongoose = require('mongoose');
-var config = require('./app/config/config.js');
+var config = require('config');
+
 
 var app = express();
-var router = express.Router();
+var port = process.env.PORT || 3000;
 
-// middleware to use for all requests
-router.use(function (req, res, next) {
-    // do logging
-    console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
+
+
+// Bootstrap models
+fs.readdirSync(__dirname + '/app/models').forEach(function (file) {
+    if (~file.indexOf('.js')) require(__dirname + '/app/models/' + file);
 });
 
-//DB Connection
-mongoose.connect('mongodb://orguz:orguz@ds057000.mongolab.com:57000/expenses'); // connect to our database
+// Connet to mongo using mongoose
+require('./app/config/mongoose')();
 
 
-//Defining middleware-s
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(morgan('combined'));
-app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
+// Bootstrap application settings
+require('./app/config/express')(app);
 
-//--------
-//Services
-//--------
-var services = {};
-services.tokenAuth = require('./app/services/TokenAuthService.js');
+// Load routes
+require('./app/routes')(app);
 
+//App starting to listen
+app.listen(port);
+console.log('Express app started on port ' + port);
 
-//--------
-//Routes
-//--------
-var routes = {};
-routes.auth = require('./app/routes/Authentication.js');
-routes.expenses = require('./app/routes/Expenses.js');
-routes.configurations = require('./app/routes/Configurations.js');
-
-
-
-// ROUTES FOR OUR API
-// =============================================================================
-
-
-
-// ----------------
-//      User
-// ----------------
-
-//Login
-app.post('/serverauth/login', routes.auth.login);
-
-//Register
-app.post('/serverauth/register', routes.auth.register);
-
-//Logout
-app.post('/serverauth/logout', routes.auth.logout);
-
-// ----------------
-//      Expense
-// ----------------
-
-//Add new expense
-app.post('/expenses/addExpense', services.tokenAuth.verifyToken, routes.expenses.addExpense);
-
-//Get specific expense
-app.get('/expenses/:id', services.tokenAuth.verifyToken, routes.expenses.getExpenseById);
-
-//Get all of user's expenses
-app.get('/expenses', services.tokenAuth.verifyToken, routes.expenses.getUserExpenses);
-
-//Get monthly expenses
-app.get('/expenses/:month/:year', services.tokenAuth.verifyToken, routes.expenses.getMonthlyExpenses);
-
-// ----------------
-//      Configuration
-// ----------------
-
-//Add new configuration
-app.post('/config/addCategories', services.tokenAuth.verifyToken, routes.configurations.addCategories);
-
-
-//Default route
-app.get('*', function (req, res) {
-    res.sendFile(__dirname + '/public/index.html')
-});
-
-
-
-//Server definition
-var server = app.listen(process.env.PORT || 5000, function () {
-
-    var host = server.address().address;
-    var port = server.address().port;
-
-    console.log('Example app listening at http://%s:%s', host, port)
-
-});
-
+module.exports = app;
+//
+//var bodyParser = require('body-parser');
+//var cookieParser = require('cookie-parser');
+//var morgan = require('morgan');
+//var config = require('./app/config/config.js');
+//
+//var router = express.Router();
+//
+//// middleware to use for all requests
+//router.use(function (req, res, next) {
+//    // do logging
+//    console.log('Something is happening.');
+//    next(); // make sure we go to the next routes and don't stop here
+//});
+//
+////DB Connection
+//mongoose.connect('mongodb://orguz:orguz@ds057000.mongolab.com:57000/expenses'); // connect to our database
+//
+//
+////Defining middleware-s
+//app.use(bodyParser.urlencoded({extended: true}));
+//app.use(bodyParser.json());
+//app.use(morgan('combined'));
+//app.use(cookieParser());
+//app.use(express.static(__dirname + '/public'));
+//
+////--------
+////Services
+////--------
+//var services = {};
+//services.tokenAuth = require('./app/services/TokenAuthService.js');
+//
+//
+////--------
+////Routes
+////--------
+//var routes = {};
+//routes.auth = require('./app/routes/Authentication.js');
+//routes.expenses = require('./app/routes/Expenses.js');
+//routes.configurations = require('./app/routes/Configurations.js');
+//
+//
+//
+//// ROUTES FOR OUR API
+//// =============================================================================
+//
+//
+//
+//// ----------------
+////      User
+//// ----------------
+//
+////Login
+//app.post('/serverauth/login', routes.auth.login);
+//
+////Register
+//app.post('/serverauth/register', routes.auth.register);
+//
+////Logout
+//app.post('/serverauth/logout', routes.auth.logout);
+//
+//// ----------------
+////      Expense
+//// ----------------
+//
+////Add new expense
+//app.post('/expenses/addExpense', services.tokenAuth.verifyToken, routes.expenses.addExpense);
+//
+////Get specific expense
+//app.get('/expenses/:id', services.tokenAuth.verifyToken, routes.expenses.getExpenseById);
+//
+////Get all of user's expenses
+//app.get('/expenses', services.tokenAuth.verifyToken, routes.expenses.getUserExpenses);
+//
+////Get monthly expenses
+//app.get('/expenses/:month/:year', services.tokenAuth.verifyToken, routes.expenses.getMonthlyExpenses);
+//
+//// ----------------
+////      Configuration
+//// ----------------
+//
+////Add new configuration
+//app.post('/config/addCategories', services.tokenAuth.verifyToken, routes.configurations.addCategories);
+//
+//
+////Default route
+//app.get('*', function (req, res) {
+//    res.sendFile(__dirname + '/public/index.html')
+//});
+//
+//
+//
+////Server definition
+//var server = app.listen(process.env.PORT || 5000, function () {
+//
+//    var host = server.address().address;
+//    var port = server.address().port;
+//
+//    console.log('Example app listening at http://%s:%s', host, port)
+//
+//});
+//

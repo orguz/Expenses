@@ -2,7 +2,7 @@
  * Created by orguz on 12/20/14.
  */
 var jwt = require('jsonwebtoken');
-var config = require('../config/config.js');
+var config = require('../config/default.js');
 
 
 module.exports.issueToken = function(payload) {
