@@ -4,8 +4,14 @@
 
 "use strict";
 
+//Config module
 var config = require('config');
+
+//Libs
 var auth = require('../libs/token-auth.js');
+
+//Controllers
+var authenticationCtrl = require('../controllers/AuthenticationCtrl.js');
 
 //TODO: Should be removed
 //--------
@@ -19,36 +25,17 @@ module.exports = function (app) {
     //TODO: Move logic to other modules
     //Login
     router.post('/login', function (req, res, next) {
-        console.log('Entered login function');
-        var username = req.body.user.username || '';
-        var password = req.body.user.password || '';
-        console.log('user ' + username);
-        console.log('pass ' + password);
 
-        if (username == '' || password == '') {
-            return res.sendStatus(401);
+        if (req.body.user === 'undefined' || req.body.user == null) {
+            res.status(400).send('User was not supplied');
         }
 
-        User.findOne({username: username}, function (err, user) {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(401);
-            }
+        if (req.body.user.username == '' || req.body.user.password == '') {
+            return res.status(400).send('User name and Password must be supplied');
+        }
 
-            if (user == undefined) {
-                return res.sendStatus(401);
-            }
-
-            user.comparePassword(password, function (isMatch) {
-                if (!isMatch) {
-                    console.log("Attempt failed to login with " + user.username);
-                    return res.sendStatus(401);
-                }
-                return res.json({token: auth.issueToken({id: user._id}), userId: user._id});
-            });
-
-        });
-    });
+        next();
+    }, authenticationCtrl.login);
 
 
     //TODO: Move logic to other modules

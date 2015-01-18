@@ -25,13 +25,13 @@ expensesApp.controller('UserManagementCtrl', ['$scope', '$state', '$window','Con
                         UserDataService.categories = data.defaultCategories;
                         console.log(UserDataService.categories);
                         $state.go("main.live");
-                    }, function (addCategoriesData){
-                        console.log(addCategoriesData);
+                    }, function (rejectData){
+                        console.log(rejectData);
                     });
 
                 },
-                function (data) {
-                    console.log(data);
+                function (rejectData) {
+                    console.log(rejectData);
                 });
         }
 

@@ -37,7 +37,7 @@ module.exports = function (app) {
                 console.log(err);
                 return res.sendStatus(500);
             }
-            res.status(201).send({_id: configuration._id, defaultCategories: config.defaultCategories});
+            res.status(201).send({_id: configuration._id, defaultCategories: config.DefaultCategories});
         });
     });
 
