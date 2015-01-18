@@ -37,7 +37,6 @@ module.exports = function (app) {
     }, authenticationCtrl.login);
 
 
-    //TODO: Move logic to other modules
     //Register
     router.post('/register', function (req, res, next) {
         if (req.body.user === 'undefined' || req.body.user == null) {
@@ -54,11 +53,8 @@ module.exports = function (app) {
 
 
 
-    //TODO: Move logic to other modules
     //Logout
-    router.post('/logout', function (req, res, next) {
-        console.log("begin logout on server" + req.headers.userid);
-
+    router.post('/logout', function (req, res) {
         return res.sendStatus(200);
     });
 
