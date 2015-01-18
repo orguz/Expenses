@@ -17,3 +17,16 @@ module.exports.login = function (username, password, callback) {
         }
     });
 };
+
+module.exports.register = function (user, callback) {
+    authenticationHandler.register(user, function (err, userId) {
+        if (err) {
+            callback(err);
+        }
+        else {
+            callback(null, {token: auth.issueToken({id: userId}), userId: userId})
+        }
+    });
+};
+
+

@@ -17,7 +17,21 @@ exports.login = function (username, password, cb) {
             if (!isMatch) {
                 cb('Incorrect password')
             }
-            cb(null,user._id);
+            else {
+                cb(null, user._id);
+            }
         });
+    });
+};
+
+
+exports.register = function (user, cb) {
+    userDao.save(user, function (err, userId) {
+        if (err) {
+            cb(err);
+        }
+        else {
+            cb(null, userId);
+        }
     });
 };
