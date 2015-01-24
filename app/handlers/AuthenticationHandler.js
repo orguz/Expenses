@@ -12,6 +12,9 @@ exports.login = function (username, password, cb) {
         if (err) {
             cb(err);
         }
+        if (user == undefined){
+            cb("User does not exist");
+        }
         bcrypt.compare(password, user.password, function (err, isMatch) {
             if (err) return cb(err);
             if (!isMatch) {
@@ -26,12 +29,23 @@ exports.login = function (username, password, cb) {
 
 
 exports.register = function (user, cb) {
-    userDao.save(user, function (err, userId) {
-        if (err) {
+    userDao.findOne(user.username, function (err,retUser){
+        if (err){
             cb(err);
         }
         else {
-            cb(null, userId);
+            if (retUser != null){
+                cb("User already exists");
+            }
+            userDao.save(user, function (err, userId) {
+                if (err) {
+                    cb(err);
+                }
+                else {
+                    cb(null, userId);
+                }
+            });
         }
     });
+
 };

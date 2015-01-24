@@ -11,9 +11,6 @@ exports.findOne = function (username, cb) {
         if (err) {
             cb(err);
         }
-        if (user == undefined) {
-            cb(err);
-        }
         //Success returning user
         cb(null, user);
     })

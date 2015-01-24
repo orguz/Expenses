@@ -4,43 +4,37 @@
 
 "use strict";
 
-var config = require('../config/default.js');
 
-//TODO: Should be removed
 //--------
 //Models
 //--------
-var Configuration = require('../models/configuration');
 var router = require('express').Router();
 
+//Controllers
+var configurationCtrl = require('../controllers/ConfigurationCtrl.js');
+
 module.exports = function (app) {
-    //TODO: Add verify token middleware
-    //TODO: Move logic to other modules
     //Add categories, when IsDefaultCategories flag is true means add only default categories
     router.post('/addCategories', function (req, res, next) {
-        var configuration = new Configuration();
-        configuration.owner = req.headers.userid;
+        if (req.headers.userid == undefined || req.headers.userid == null) {
+            return res.status(400).send('UserId header was not supplied');
+        }
 
-        if (req.body.IsDefaultCategories == true) {
-            configuration.categories = config.DefaultCategories;
+        if (req.body.IsDefaultCategories  == undefined) {
+            return res.status(400).send('IsDefaultCategories was not supplied');
         }
-        else {
-            Configuration.findOne({owner: req.headers.userid}, function (err, configuration) {
-                if (err) {
-                    res.sendStatus(500);
-                }
-                configuration.categories.concat(req.body.categories);
-            })
+
+        if (req.body.IsDefaultCategories  === false && (req.body.categories == null || req.body.categories == undefined)) {
+            return res.status(400).send('Categories were not supplied');
         }
-        configuration.save(function (err, configuration) {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            }
-            res.status(201).send({_id: configuration._id, defaultCategories: config.DefaultCategories});
-        });
-    });
+
+        next();
+    }, configurationCtrl.addCategories);
 
 
     app.use('/config', router);
+
+
 };
+
+

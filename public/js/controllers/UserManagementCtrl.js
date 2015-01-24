@@ -22,7 +22,7 @@ expensesApp.controller('UserManagementCtrl', ['$scope', '$state', '$window','Con
             AuthenticationService.register($scope.user).then(function () {
                     console.log('succesful registration');
                     ConfigurationService.addDefaultCategories().then(function (data){
-                        UserDataService.categories = data.defaultCategories;
+                        UserDataService.categories = data.categories;
                         console.log(UserDataService.categories);
                         $state.go("main.live");
                     }, function (rejectData){

@@ -13,12 +13,6 @@ var auth = require('../libs/token-auth.js');
 //Controllers
 var authenticationCtrl = require('../controllers/AuthenticationCtrl.js');
 
-//TODO: Should be removed
-//--------
-//Models
-//--------
-var User = require('../models/user');
-
 var router = require('express').Router();
 
 module.exports = function (app) {
