@@ -1,5 +1,8 @@
 'use strict';
 
+process.env.NODE_ENV = 'development';
+process.env.NODE_CONFIG_DIR = './app/config';
+
 //Require modules
 var fs = require('fs');
 var express = require('express');

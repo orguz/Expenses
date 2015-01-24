@@ -24,8 +24,7 @@ module.exports = function (app) {
     app.use(express.static(path.join(__dirname, '../../public')));
 
     // Logging middleware
-    var log;
-    app.use(morgan(log));
+    app.use(morgan("combined"));
 
     // bodyParser should be above methodOverride
     app.use(bodyParser.json());
