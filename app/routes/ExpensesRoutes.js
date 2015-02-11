@@ -11,29 +11,21 @@ var Expense = require('../models/expense');
 
 var router = require('express').Router();
 
+var expensesCtrl = require('../controllers/ExpensesCtrl.js');
+
+
 module.exports = function (app) {
-    //TODO: Move logic to other modules
-    //Login
+    //Add expense
     router.post('/addExpense', function (req, res, next) {
-        var expense = new Expense();
-        console.log(req.body.expense);
-        expense.owner = req.headers.userid;
-        expense.date = req.body.expense.date || Date.now(); //change default now
-        expense.value = req.body.expense.value;
-        expense.category = req.body.expense.category;
-        expense.title = req.body.expense.title;
-        expense.description = req.body.expense.description || '';
+        if (req.body.expense == null || req.body.expense == undefined ||
+            req.body.expense.date == '' || req.body.expense.value == '' ||
+            req.body.expense.category == '' || req.body.expense.title == '' || req.body.expense.description == '') {
+            return res.status(400).send('Missing expense data');
+        }
 
+        next();
+    }, expensesCtrl.addExpense);
 
-        expense.save(function (err, expense) {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            }
-            res.status(201).send({_id: expense._id});
-
-        });
-    });
 
 
     //TODO: Move logic to other modules

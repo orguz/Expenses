@@ -38,7 +38,7 @@ module.exports = function (app) {
         }
 
         if (req.body.user.username == '' || req.body.user.password == '' || req.body.user.email == '' || req.body.user.first_name == '' || req.body.user.last_name == '') {
-            return res.status(400).send('User name and Password must be supplied');
+            return res.status(400).send('Missing user data');
         }
 
         next();

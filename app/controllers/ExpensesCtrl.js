@@ -3,17 +3,18 @@
  */
 "use strict";
 
-//var configurationService = require('../services/ConfigurationService');
+var expensesService = require('../services/ExpensesService');
 
-module.exports.addCategories = function (req, res) {
+module.exports.addExpense = function (req, res) {
 
 
-    configurationService.addCategories(req.headers.userid, req.body, function (err, categories) {
+    expensesService.addExpense(req.body.expense, req.headers.userid, function (err, id) {
         if (err) {
             res.status(500).send(err);
         }
         else {
-            res.status(200).send(categories);
+            res.status(201).send({_id: id});
         }
     });
 };
+
