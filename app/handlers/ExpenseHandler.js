@@ -4,7 +4,7 @@
 
 'use strict';
 
-var expenseDao = require('../dao/expenseDao');
+var expenseDao = require('../dao/ExpenseDAO');
 var config = require('../config/default.js');
 
 exports.addExpense = function (expense, userId, cb) {
