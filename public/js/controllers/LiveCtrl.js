@@ -5,22 +5,14 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', '$timeout','Expens
 
     $scope.expenses = {};
     $scope.categories = {};
-    $scope.test123 = function (ConfigurationService) {
-        var deferred = $q.defer();
-        ConfigurationService.getCategories().then(function (categories) {
-            deferred.resolve(categories);
-        });
-        return deferred.promise;
-
-    };
 
     $scope.getData = function () {
         ExpenseService.getExpenses().then(function (data) {
             $scope.expenses = data.expenses;
 
-            ConfigurationService.getCategories().then(function (data) {
-                $scope.categories = data.categories;
-            });
+            //ConfigurationService.getCategories().then(function (data) {
+            //    $scope.categories = data.categories;
+            //});
 
         }, function (rejectData) {
             console.log(rejectData);
@@ -81,7 +73,7 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', '$timeout','Expens
      * Data for Bar chart
      */
     $scope.barData = {
-        labels: $scope.test123.categories,
+        labels: ['asd','dsa'],
         datasets: [
             {
                 label: "My First dataset",
