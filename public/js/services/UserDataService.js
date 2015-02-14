@@ -10,11 +10,9 @@ expensesApp.factory('UserDataService', function($window) {
         set userId(value) {$window.sessionStorage.userId = value},
 
         get token() {return $window.sessionStorage.token},
-        set token(value) {$window.sessionStorage.token = value},
+        set token(value) {$window.sessionStorage.token = value}
 
 
-        get categories() {return $window.sessionStorage.categories},
-        set categories(value) {$window.sessionStorage.categories = value}
     };
 
 

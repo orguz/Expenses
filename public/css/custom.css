@@ -1,0 +1,11 @@
+input[readonly].default-cursor {
+    cursor: default;
+}
+
+.center {
+ text-align: center;
+}
+
+.datepopup.ng-invalid {
+    border: 1px solid red;
+}

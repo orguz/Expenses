@@ -20,7 +20,7 @@ module.exports.login = function (req, res) {
     });
 };
 
-module.exports.register = function (req, res) {
+module.exports.register = function (req, res, next) {
 
     var user = new Object();
     user.username = req.body.user.username;

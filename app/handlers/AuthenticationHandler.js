@@ -37,14 +37,17 @@ exports.register = function (user, cb) {
             if (retUser != null){
                 cb("User already exists");
             }
-            userDao.save(user, function (err, userId) {
-                if (err) {
-                    cb(err);
-                }
-                else {
-                    cb(null, userId);
-                }
-            });
+            else{
+                userDao.save(user, function (err, userId) {
+                    if (err) {
+                        cb(err);
+                    }
+                    else {
+                        cb(null, userId);
+                    }
+                });
+            }
+
         }
     });
 

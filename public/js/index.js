@@ -8,6 +8,7 @@ var expensesApp = angular.module('expensesApp', [
     'ui.router',
     'ui.bootstrap',
     'angles',
+    'datatables'
 ]);
 
 

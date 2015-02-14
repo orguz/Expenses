@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <h2>Add Expense</h2>
+</div>
+
+<div class="modal-body" ng-keyup="$event.keyCode == 13 && addExpense()">
+    <form name="addExpenseForm" role="form" class="form-horizontal">
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                Title:
+            </label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Title" ng-model="newExpense.title"
+                       title="Title is required" required/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                Description:
+            </label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Description" ng-model="newExpense.description"
+                       title="Description is required" required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                Date:
+            </label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control default-cursor datepopup" placeholder="Expense Date"
+                       ng-model="newExpense.date"
+                       datepicker-popup="shortDate"
+                       is-open="isDatePickerOpened"
+                       ng-click="isDatePickerOpened = !isDatePickerOpened; $event.stopPropagation(); $event.preventDefault();"
+                       readonly
+                       required/>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                Category:
+            </label>
+
+            <div class="col-sm-9">
+                <select  name="dropdown" class="form-control m-b" ng-model="newExpense.category" ng-options="category for category in categories" required>
+                    <option value="" selected="selected" ng-if="!newExpense.category">Category</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                Amount:
+            </label>
+
+            <div class="col-sm-9">
+                <input type="number" class="form-control" placeholder="Amount" ng-model="newExpense.value" min="1"
+                       title="Amount is required" required/>
+            </div>
+        </div>
+
+
+        <hr>
+
+        <div>
+
+            <div class="col-sm-4 col-sm-offset-3">
+                <button ng-click="cancel()" formnovalidate="formnovalidate" class="btn btn-danger full-width">
+                    <i class="fa fa-times"></i>
+                    &nbsp;Cancel
+                </button>
+            </div>
+
+            <div class="col-sm-4 col-sm-offset-1">
+                <button type="submit" ng-click="addExpense()" class="btn btn-primary full-width">
+                    <i class="fa fa-check"></i>
+                    &nbsp;Submit
+                </button>
+            </div>
+            <br>
+        </div>
+
+    </form>
+
+
+</div>

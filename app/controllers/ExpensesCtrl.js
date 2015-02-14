@@ -16,5 +16,20 @@ module.exports.addExpense = function (req, res) {
             res.status(201).send({_id: id});
         }
     });
+
 };
 
+
+module.exports.getExpenses = function (req, res) {
+
+
+    expensesService.getExpenses(req.headers.userid, function (err, expenses) {
+        if (err) {
+            res.status(500).send(err);
+        }
+        else {
+            res.status(200).send({expenses: expenses});
+        }
+    });
+
+};

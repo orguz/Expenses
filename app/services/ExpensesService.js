@@ -17,4 +17,21 @@ module.exports.addExpense = function (expense, userId, callback) {
             callback(null, id)
         }
     });
+
+
+};
+
+module.exports.getExpenses = function (userId, callback) {
+
+
+    expenseHandler.getExpenses(userId, function (err, expenses) {
+        if (err) {
+            callback(err);
+        }
+        else {
+            callback(null, expenses)
+        }
+    });
+
+
 };

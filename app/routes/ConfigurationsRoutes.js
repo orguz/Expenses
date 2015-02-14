@@ -31,6 +31,14 @@ module.exports = function (app) {
         next();
     }, configurationCtrl.addCategories);
 
+    router.get('/getCategories', function (req, res, next) {
+        if (req.headers.userid == undefined || req.headers.userid == null) {
+            return res.status(400).send('UserId header was not supplied');
+        }
+
+        next();
+    }, configurationCtrl.getCategories);
+
 
     app.use('/config', router);
 

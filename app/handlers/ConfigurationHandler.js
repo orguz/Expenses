@@ -16,7 +16,7 @@ exports.addCategories = function (userId, body, cb) {
         configData.categories = config.DefaultCategories;
     }
     else {
-        configurationDao.findOne({owner: userId}, function (err, configuration) {
+        configurationDao.findOne(userId, function (err, configuration) {
             if (err) {
                 cb(err);
             }
@@ -33,4 +33,17 @@ exports.addCategories = function (userId, body, cb) {
     });
 
 
+};
+
+
+exports.getCategories = function (userId, cb) {
+    configurationDao.findOne(userId, function (err, config) {
+        if (err) {
+            cb(err);
+        }
+        else {
+            cb(null, config.categories);
+
+        }
+    })
 };

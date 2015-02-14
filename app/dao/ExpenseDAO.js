@@ -34,8 +34,19 @@ exports.save = function (expenseData, userId, cb) {
         if (err) {
             cb(err);
         }
-        cb(null,expense._id);
+        cb(null, expense._id);
 
     });
+
+};
+
+exports.find = function (userId, cb) {
+    Expense.find({owner: userId}, function (err, expenses) {
+        if (err) {
+            cb(err);
+        }
+        //Success returning user
+        cb(null, expenses);
+    })
 
 };

@@ -18,4 +18,23 @@ exports.addExpense = function (expense, userId, cb) {
         }
     });
 
+
+
 };
+
+
+exports.getExpenses = function (userId, cb) {
+
+    expenseDao.find(userId, function (err, expenses) {
+        if (err) {
+            cb(err);
+        }
+        else {
+            cb(null, expenses);
+        }
+    });
+
+
+
+};
+

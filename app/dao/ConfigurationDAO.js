@@ -6,8 +6,8 @@
 //--------
 var Configuration = require('../models/configuration');
 
-exports.findOne = function (owner, cb) {
-    User.findOne({owner: owner}, function (err, config) {
+exports.findOne = function (userId, cb) {
+    Configuration.findOne({owner: userId}, function (err, config) {
         if (err) {
             cb(err);
         }

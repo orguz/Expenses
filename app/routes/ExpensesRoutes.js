@@ -27,9 +27,18 @@ module.exports = function (app) {
     }, expensesCtrl.addExpense);
 
 
+    router.get('/getExpenses', function (req, res, next) {
+        if (req.headers.userid == '') {
+            return res.status(400).send('Missing user id');
+        }
+
+        next();
+    }, expensesCtrl.getExpenses);
+
+
 
     //TODO: Move logic to other modules
-    //Register
+    //getExpense
     router.get('/:id', function (req, res, next) {
         Expense.findOne({owner: req.headers.userid, _id: req.param('id')}, function (err, expense) {
             if (err) {
