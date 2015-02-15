@@ -1,18 +1,28 @@
 /**
  * Created by orguz on 11/29/14.
  */
-expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', '$timeout','ExpenseService', 'ConfigurationService', function ($scope, $modal, $q, $timeout, ExpenseService, ConfigurationService) {
+expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 'ConfigurationService','_', function ($scope, $modal, $q, ExpenseService, ConfigurationService,_) {
 
     $scope.expenses = {};
+    $scope.newExpense = {};
     $scope.categories = {};
+
+    $scope.$watch(function(scope) { return scope.categories },
+        function(newValue, oldValue) {
+            $scope.barData.labels = newValue;
+        }
+    );
 
     $scope.getData = function () {
         ExpenseService.getExpenses().then(function (data) {
             $scope.expenses = data.expenses;
+            var test = _.groupBy(data.expenses, function(expense){ return expense.category });
 
-            //ConfigurationService.getCategories().then(function (data) {
-            //    $scope.categories = data.categories;
-            //});
+
+            ConfigurationService.getCategories().then(function (data) {
+                //$scope.categories = $scope.barData.labels = data.categories;
+                $scope.categories = data.categories;
+            });
 
         }, function (rejectData) {
             console.log(rejectData);
@@ -26,7 +36,7 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', '$timeout','Expens
             templateUrl: '../../views/addExpenseModal.html',
             controller: 'ExpenseModalCtrl',
             resolve: {
-                categoriesDfr: function (ConfigurationService) {
+                categoriesPromise: function (ConfigurationService) {
                     var deferred = $q.defer();
                     ConfigurationService.getCategories().then(function (categories) {
                         deferred.resolve(categories);
@@ -41,9 +51,7 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', '$timeout','Expens
         modalInstance.result.then(function (newExpense) {
             ExpenseService.addExpense(newExpense).then(function (id) {
                 console.log(newExpense);
-                $timeout(function(newExpense){
-                    $scope.expenses.push(newExpense);
-                });
+                $scope.expenses.push(newExpense);
             }, function (rejectData) {
                 console.log(rejectData);
             });
@@ -73,7 +81,7 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', '$timeout','Expens
      * Data for Bar chart
      */
     $scope.barData = {
-        labels: ['asd','dsa'],
+        labels: {},
         datasets: [
             {
                 label: "My First dataset",
@@ -81,7 +89,7 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', '$timeout','Expens
                 strokeColor: "rgba(26,179,148,0.8)",
                 highlightFill: "rgba(26,179,148,0.75)",
                 highlightStroke: "rgba(26,179,148,1)",
-                data: [3200, 800, 1120, 600]
+                data: [1,2,3]
             }
         ]
     };

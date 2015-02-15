@@ -1,10 +1,10 @@
 /**
  * Created by orguz on 11/29/14.
  */
-expensesApp.controller('ExpenseModalCtrl', ['$scope', '$modalInstance', 'categoriesDfr', function ($scope, $modalInstance, categoriesDfr) {
+expensesApp.controller('ExpenseModalCtrl', ['$scope', '$modalInstance', 'categoriesPromise', function ($scope, $modalInstance, categoriesPromise) {
     $scope.newExpense = {};
     $scope.defaultCategory = "Category";
-    $scope.categories = categoriesDfr.categories;
+    $scope.categories = categoriesPromise.categories;
 
     $scope.addExpense = function () {
         if (isFormValid()){
