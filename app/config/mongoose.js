@@ -14,6 +14,7 @@ module.exports = function () {
     // Connect to mongodb - Movie like express
     var connect = function () {
         var options = { server: { socketOptions: { keepAlive: 1 } } };
+        mongoose.set('debug', true);
         mongoose.connect(config.db.path, options);
     };
     connect();

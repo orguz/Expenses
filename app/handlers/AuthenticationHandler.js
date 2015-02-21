@@ -15,15 +15,18 @@ exports.login = function (username, password, cb) {
         if (user == undefined){
             cb("User does not exist");
         }
-        bcrypt.compare(password, user.password, function (err, isMatch) {
-            if (err) return cb(err);
-            if (!isMatch) {
-                cb('Incorrect password')
-            }
-            else {
-                cb(null, user._id);
-            }
-        });
+        else{
+            bcrypt.compare(password, user.password, function (err, isMatch) {
+                if (err) return cb(err);
+                if (!isMatch) {
+                    cb('Incorrect password')
+                }
+                else {
+                    cb(false, user._id);
+                }
+            });
+        }
+
     });
 };
 

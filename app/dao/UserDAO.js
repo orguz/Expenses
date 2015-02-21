@@ -11,8 +11,11 @@ exports.findOne = function (username, cb) {
         if (err) {
             cb(err);
         }
-        //Success returning user
-        cb(null, user);
+        else{
+            //Success returning user
+            cb(null, user);
+        }
+
     })
 };
 

@@ -13,7 +13,7 @@ module.exports.login = function (username, password, callback) {
             callback(err);
         }
         else {
-            callback(null, {token: auth.issueToken({id: userId}), userId: userId})
+            callback(false, {token: auth.issueToken({id: userId}), userId: userId})
         }
     });
 };

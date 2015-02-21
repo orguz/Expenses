@@ -3,26 +3,42 @@
  */
 expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 'ConfigurationService','_', function ($scope, $modal, $q, ExpenseService, ConfigurationService,_) {
 
-    $scope.expenses = {};
     $scope.newExpense = {};
+    $scope.expenses = [];
     $scope.categories = {};
 
-    $scope.$watch(function(scope) { return scope.categories },
-        function(newValue, oldValue) {
-            $scope.barData.labels = newValue;
-        }
-    );
 
     $scope.getData = function () {
         ExpenseService.getExpenses().then(function (data) {
+            console.log('1');
+
             $scope.expenses = data.expenses;
-            var test = _.groupBy(data.expenses, function(expense){ return expense.category });
+            console.log('2');
 
 
+            //var test = _.groupBy(data.expenses, function (expense) {
+            //    return expense.category
+            //});
             ConfigurationService.getCategories().then(function (data) {
-                //$scope.categories = $scope.barData.labels = data.categories;
                 $scope.categories = data.categories;
+                console.log('3');
+
+                //$scope.barData.labels = data.categories;
+
+                //var keys = _.keys(test);
+                //$scope.barData = Array.apply(null, new Array($scope.labels.length)).map(Number.prototype.valueOf, 0);
+
+                //
+                //_.each(keys, function (element, index, array) {
+                //    var sum = 0;
+                //    _.each(test[element], function (element, index, array) {
+                //        sum += element.value;
+                //    });
+                //    $scope.barData[_.indexOf($scope.labels, element)] = sum;
+                //});
+
             });
+
 
         }, function (rejectData) {
             console.log(rejectData);
@@ -52,6 +68,7 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 
             ExpenseService.addExpense(newExpense).then(function (id) {
                 console.log(newExpense);
                 $scope.expenses.push(newExpense);
+                //$scope.data[_.indexOf($scope.labels, newExpense.category)] += newExpense.value;
             }, function (rejectData) {
                 console.log(rejectData);
             });
@@ -66,32 +83,5 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 
         return date.toLocaleDateString();
     };
 
-    $scope.barOptions = {
-        scaleBeginAtZero: true,
-        scaleShowGridLines: true,
-        scaleGridLineColor: "rgba(0,0,0,.05)",
-        scaleGridLineWidth: 1,
-        barShowStroke: true,
-        barStrokeWidth: 2,
-        barValueSpacing: 5,
-        barDatasetSpacing: 1
-    };
-
-    /**
-     * Data for Bar chart
-     */
-    $scope.barData = {
-        labels: {},
-        datasets: [
-            {
-                label: "My First dataset",
-                fillColor: "rgba(26,179,148,0.5)",
-                strokeColor: "rgba(26,179,148,0.8)",
-                highlightFill: "rgba(26,179,148,0.75)",
-                highlightStroke: "rgba(26,179,148,1)",
-                data: [1,2,3]
-            }
-        ]
-    };
 
 }]);

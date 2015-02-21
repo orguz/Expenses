@@ -2,11 +2,14 @@ expensesApp.controller('UserManagementCtrl', ['$scope', '$state', '$window','Con
     $scope.user = {};
     $scope.login = function () {
         if ($scope.user.username != null && $scope.user.password != null) {
-            AuthenticationService.login($scope.user).then(function (data) {
+            AuthenticationService.login($scope.user).then(function () {
+                    console.log("before state go");
                     $state.go('main.live');
                 },
                 function (data) {
                     console.log(data);
+                }, function(alert){
+                    console.log(alert);
                 });
         }
     };

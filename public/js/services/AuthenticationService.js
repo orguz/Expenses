@@ -6,14 +6,17 @@ expensesApp.factory('AuthenticationService', function ($http, $q, $window, UserD
         login: function (user) {
 
             var dfr = $q.defer();
-            $http.post('/serverauth/login', {user: user}).success(function (data, status, header, config) {
+            $http.post('http://localhost:3000/serverauth/login', {user: user}).success(function (data) {
                 UserDataService.userId = data.userId;
                 UserDataService.isAuthenticated = true;
                 UserDataService.token = data.token;
+                console.log(data);
                 dfr.resolve(data);
 
             }).error(function (data, status, header, config) {
-
+                console.log(data);
+                console.log(status);
+                console.log(config);
                 dfr.reject(data);
             });
 
