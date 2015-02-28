@@ -16,7 +16,7 @@ var cors = require('cors');
 
 module.exports = function (app) {
 
-
+    app.use(cors());
     // Compression middleware (should be placed before express.static)
     app.use(compression({
         threshold: 512
@@ -31,6 +31,5 @@ module.exports = function (app) {
     // bodyParser should be above methodOverride
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(cors());
 
 };
