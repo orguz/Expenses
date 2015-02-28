@@ -14,6 +14,13 @@ var config = require('config');
  */
 
 module.exports = function (app) {
+    var allowCrossDomain = function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', 'calc-expenses.herokuapp.com');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+        next();
+    };
 
     // Compression middleware (should be placed before express.static)
     app.use(compression({
@@ -29,6 +36,7 @@ module.exports = function (app) {
     // bodyParser should be above methodOverride
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(allowCrossDomain);
 
 
 };
