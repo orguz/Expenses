@@ -11,5 +11,9 @@ input[readonly].default-cursor {
 }
 
 .no-padding-left {
-    padding-left: 0px;
+    padding-left: 0;
+}
+
+div.DTTT_container {
+    padding-left: 5px !important;
 }
