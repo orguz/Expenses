@@ -8,18 +8,15 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var path = require('path');
 var config = require('config');
+var cors = require('cors');
 
 /**
  * Expose
  */
 
 module.exports = function (app) {
-    var allowCrossDomain = function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
-    };
 
+    app.use(cors());
     // Compression middleware (should be placed before express.static)
     app.use(compression({
         threshold: 512
@@ -34,7 +31,6 @@ module.exports = function (app) {
     // bodyParser should be above methodOverride
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(allowCrossDomain);
 
 
 };
