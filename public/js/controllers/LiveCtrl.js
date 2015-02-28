@@ -1,17 +1,17 @@
 /**
  * Created by orguz on 11/29/14.
  */
-expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 'ConfigurationService','_', function ($scope, $modal, $q, ExpenseService, ConfigurationService,_) {
+expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 'ConfigurationService','_','DTOptionsBuilder', function ($scope, $modal, $q, ExpenseService, ConfigurationService,_,DTOptionsBuilder) {
 
     $scope.newExpense = {};
     $scope.expenses = [];
     $scope.categories = {};
+    $scope.dtOptions = DTOptionsBuilder.newOptions().withTableTools('/libs/datatables-tabletools/swf/copy_csv_xls_pdf.swf');
 
 
     $scope.getData = function () {
         ExpenseService.getExpenses().then(function (data) {
             console.log('1');
-
             $scope.expenses = data.expenses;
             console.log('2');
 

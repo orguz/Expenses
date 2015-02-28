@@ -29,7 +29,7 @@ expensesApp.factory('TokenInterceptor', function ($q, $window, $location, UserDa
             if (rejection != null && rejection.status === 401 && (UserDataService.token || UserDataService.isAuthenticated)) {
                 delete $window.sessionStorage.token;
                 UserDataService.isAuthenticated = false;
-                $location.path("auth/login");
+                $location.path("/auth/login");
             }
 
             return $q.reject(rejection);
