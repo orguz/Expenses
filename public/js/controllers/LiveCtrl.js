@@ -6,14 +6,19 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 
     $scope.newExpense = {};
     $scope.expenses = [];
     $scope.categories = {};
-    $scope.dtOptions = DTOptionsBuilder.newOptions().withTableTools('/libs/datatables-tabletools/swf/copy_csv_xls_pdf.swf');
+    $scope.dtOptions = DTOptionsBuilder.newOptions().withTableTools('/libs/datatables-tabletools/swf/copy_csv_xls_pdf.swf')
+        .withTableToolsButtons([
+            'copy', {
+                'sExtends': 'collection',
+                'sButtonText': 'Save',
+                'aButtons': ['csv','pdf']
+            }
+        ]);
 
 
     $scope.getData = function () {
         ExpenseService.getExpenses().then(function (data) {
-            console.log('1');
             $scope.expenses = data.expenses;
-            console.log('2');
 
 
             //var test = _.groupBy(data.expenses, function (expense) {
@@ -21,7 +26,6 @@ expensesApp.controller('LiveCtrl', ['$scope', '$modal', '$q', 'ExpenseService', 
             //});
             ConfigurationService.getCategories().then(function (data) {
                 $scope.categories = data.categories;
-                console.log('3');
 
                 //$scope.barData.labels = data.categories;
 

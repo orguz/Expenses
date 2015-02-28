@@ -9,3 +9,7 @@ input[readonly].default-cursor {
 .datepopup.ng-invalid {
     border: 1px solid red;
 }
+
+.no-padding-left {
+    padding-left: 0px;
+}
